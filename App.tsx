@@ -1,33 +1,62 @@
-import { useState } from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { useEffect, useState } from "react";
+import { SafeAreaView, StyleSheet, Text, View } from "react-native";
 import MapView, { Marker, PROVIDER_GOOGLE } from "react-native-maps";
+import * as Location from "expo-location";
 
 import i from "./assets/favicon.png";
+import { NavigationContainer } from "@react-navigation/native";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+
+//views
+import HomeScreen from "./screen/HomeScreen";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import CreateLocationScreenStack from "./screen/CreatePin";
+import HomeIcon from "./icons/HomeIcon";
+import { colors } from "./components/colors";
+
+export type RootStackParamList = {
+  Home: undefined;
+  Create: undefined;
+};
+const RootStack = createBottomTabNavigator<RootStackParamList>();
 
 export default function App() {
-  const [mapRegion, setmapRegion] = useState({
-    latitude: 13.621964154078512,
-    longitude: 100.53999614273243,
-    latitudeDelta: 0.0922,
-    longitudeDelta: 0.0421,
-  });
-
   return (
-    <View style={styles.container}>
-      <MapView
-        style={{ width: "100%", height: "100%" }}
-        provider={PROVIDER_GOOGLE}
-        showsUserLocation={true}
-        region={mapRegion}
+    <NavigationContainer>
+      <RootStack.Navigator
+        initialRouteName="Home"
+        screenOptions={{
+          headerShown: false,
+          tabBarActiveTintColor: colors.primary,
+          tabBarInactiveTintColor: colors.gray,
+          tabBarStyle: {
+            height: 65,
+            paddingBottom: 5,
+          },
+        }}
       >
-        <Marker coordinate={mapRegion} />
-      </MapView>
-    </View>
+        <RootStack.Screen
+          name="Home"
+          component={HomeScreen}
+          options={{
+            tabBarIcon: ({ color, size, focused }) => (
+              <HomeIcon color={color} size={40} focused={focused} />
+            ),
+            tabBarLabel: "หน้าแรก",
+            tabBarLabelStyle: {
+              fontSize: 15,
+            },
+          }}
+        />
+        <RootStack.Screen name="Create" component={CreateLocationScreenStack} />
+      </RootStack.Navigator>
+    </NavigationContainer>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
+    paddingTop: 30,
     flex: 1,
     backgroundColor: "#fff",
     alignItems: "center",
