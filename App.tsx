@@ -8,9 +8,9 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
 //views
-import HomeScreen from "./screen/HomeScreen";
+import HomeScreen from "./screens/HomeScreen";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import CreateLocationScreenStack from "./screen/CreatePin";
+import CreateLocationScreenStack from "./screens/CreatePin";
 import HomeIcon from "./icons/HomeIcon";
 import { colors } from "./components/colors";
 
