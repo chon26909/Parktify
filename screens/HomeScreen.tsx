@@ -1,11 +1,11 @@
-import {
-  View,
-  Text,
-  TouchableOpacity,
-  TextInput,
-  TouchableHighlight,
-} from "react-native";
-import React, { useEffect, useRef, useState } from "react";
+import { View, TextInput, TouchableHighlight, Text } from "react-native";
+import React, {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { colors } from "../components/colors";
@@ -16,10 +16,22 @@ import { initialRegion, mockData } from "../static/map";
 import { ScreenWidth } from "../components/shared";
 import MyLocationIcon from "../icons/MyLocationIcon";
 import ParkIcon from "../icons/ParkIcon";
+import BottomSheet from "@gorhom/bottom-sheet";
 
 const HomeScreen = () => {
   const navigation =
     useNavigation<NativeStackNavigationProp<RootStackParamList>>();
+
+  // ref
+  const bottomSheetRef = useRef<BottomSheet>(null);
+
+  // variables
+  const snapPoints = useMemo(() => ["25%", "50%"], []);
+
+  // callbacks
+  const handleSheetChanges = useCallback((index: number) => {
+    console.log("handleSheetChanges", index);
+  }, []);
 
   const refMap = useRef<MapView>(null);
 
@@ -95,6 +107,17 @@ const HomeScreen = () => {
           <MyLocationIcon color={colors.graydark} size={25} />
         </TouchableHighlight>
       </View>
+
+      <BottomSheet
+        ref={bottomSheetRef}
+        index={1}
+        snapPoints={snapPoints}
+        onChange={handleSheetChanges}
+      >
+        <View>
+          <Text>Awesome 🎉</Text>
+        </View>
+      </BottomSheet>
     </View>
   );
 };
