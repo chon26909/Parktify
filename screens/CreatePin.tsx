@@ -1,4 +1,4 @@
-import { createRef, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { View, Image, TouchableOpacity, Text, StyleSheet } from "react-native";
 import MapView from "react-native-maps";
 import PinIcon from "../assets/pin.png";
@@ -10,6 +10,7 @@ import {
 } from "@react-navigation/native-stack";
 import { colors } from "../components/colors";
 import { useNavigation } from "@react-navigation/native";
+import { initialRegion } from "../static/map";
 
 type CreateStackParams = {
   SelectLocation: undefined;
@@ -22,12 +23,6 @@ const SelectLocation = () => {
   const navigation =
     useNavigation<NativeStackNavigationProp<CreateStackParams>>();
 
-  const initialRegion = {
-    latitude: 13.621964154078512,
-    longitude: 100.53999614273243,
-    latitudeDelta: 0.025,
-    longitudeDelta: 0.025,
-  };
   const refMap = useRef<MapView>(null);
 
   const [margin, setMargin] = useState(1);

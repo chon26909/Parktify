@@ -40,7 +40,7 @@ export default function App() {
           component={HomeScreen}
           options={{
             tabBarIcon: ({ color, size, focused }) => (
-              <HomeIcon color={color} size={40} focused={focused} />
+              <HomeIcon color={color} size={30} focused={focused} />
             ),
             tabBarLabel: "หน้าแรก",
             tabBarLabelStyle: {
