@@ -1,4 +1,10 @@
-import { View, TextInput, TouchableHighlight, Text } from "react-native";
+import {
+  View,
+  TextInput,
+  TouchableHighlight,
+  Text,
+  SafeAreaView,
+} from "react-native";
 import React, {
   useCallback,
   useEffect,
@@ -10,39 +16,60 @@ import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { colors } from "../components/colors";
 import { RootStackParamList } from "../App";
-import MapView, { Marker, PROVIDER_GOOGLE } from "react-native-maps";
+import MapView, { Marker, PROVIDER_GOOGLE, MapMarker } from "react-native-maps";
 import * as Location from "expo-location";
 import { initialRegion, mockData } from "../static/map";
 import { ScreenWidth } from "../components/shared";
 import MyLocationIcon from "../icons/MyLocationIcon";
 import ParkIcon from "../icons/ParkIcon";
 import BottomSheet from "@gorhom/bottom-sheet";
+import Bottom from "../components/Bottom";
+import { getLocations } from "../services/location";
 
 const HomeScreen = () => {
-  const navigation =
-    useNavigation<NativeStackNavigationProp<RootStackParamList>>();
-
-  // ref
-  const bottomSheetRef = useRef<BottomSheet>(null);
-
-  // variables
-  const snapPoints = useMemo(() => ["25%", "50%"], []);
-
-  // callbacks
-  const handleSheetChanges = useCallback((index: number) => {
-    console.log("handleSheetChanges", index);
-  }, []);
+  // const navigation =
+  //   useNavigation<NativeStackNavigationProp<RootStackParamList>>();
 
   const refMap = useRef<MapView>(null);
 
   const [mapRegion, setMapRegion] = useState(initialRegion);
 
-  const onChangeValue = (region: any) => {
-    setTimeout(() => {
-      // alert(JSON.stringify(region));
-      setMapRegion(region);
-    }, 2000);
-  };
+  const [markers, setMarkers] = useState([]);
+
+  // ref
+  // const bottomSheetRef = useRef<BottomSheet>(null);
+
+  // variables
+  // const snapPoints = useMemo(() => ["25%", "50%"], []);
+
+  // callbacks
+  // const handleSheetChanges = useCallback((index: number) => {
+  //   console.log("handleSheetChanges", index);
+  // }, []);
+
+  // const handleAnimate = (e: any) => {
+  //   console.log("e", e);
+  // };
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const res = await getLocations();
+      setMarkers(res.data);
+    };
+
+    fetchData();
+  }, []);
+
+  useEffect(() => {
+    handleUserLocation();
+  }, []);
+
+  // const onChangeValue = (region: any) => {
+  //   setTimeout(() => {
+  //     // alert(JSON.stringify(region));
+  //     setMapRegion(region);
+  //   }, 2000);
+  // };
 
   const handleUserLocation = async () => {
     let { status } = await Location.requestForegroundPermissionsAsync();
@@ -68,31 +95,59 @@ const HomeScreen = () => {
     console.log("onPress ", e);
   };
 
-  useEffect(() => {
-    handleUserLocation();
-  }, []);
-
-  return (
-    <View style={{ flex: 1 }}>
-      <MapView
-        provider={PROVIDER_GOOGLE}
-        style={{ flex: 1 }}
-        initialRegion={mapRegion}
-        ref={refMap}
-        showsMyLocationButton={false}
-        showsUserLocation
-      >
-        {mockData.map((item, index) => {
+  const RenderLocation = () => {
+    return (
+      <>
+        {markers.map((item: any, index) => {
           return (
-            <Marker key={index} coordinate={item} onPress={handleViewLocation}>
-              <ParkIcon />
+            <Marker
+              key={index}
+              coordinate={{
+                latitude: item.latitude,
+                longitude: item.longitude,
+              }}
+              onPress={handleViewLocation}
+              title={item.title}
+            >
+              <View>
+                <ParkIcon />
+              </View>
             </Marker>
           );
         })}
-      </MapView>
+      </>
+    );
+  };
 
-      <InputSesrch />
+  const InputSesrch = () => {
+    return (
+      <View
+        style={{
+          position: "absolute",
+          top: 30,
+          left: 0,
+          width: ScreenWidth,
+          padding: 15,
+        }}
+      >
+        <TextInput
+          placeholder="ค้นหาสถานที่"
+          style={{
+            padding: 12,
+            borderWidth: 1,
+            borderRadius: 15,
+            borderColor: colors.gray,
+            backgroundColor: colors.graylight,
+            fontSize: 16,
+          }}
+          cursorColor={colors.graydark}
+        />
+      </View>
+    );
+  };
 
+  const GotoMyLocation = () => {
+    return (
       <View style={{ position: "absolute", top: 110, right: 15 }}>
         <TouchableHighlight
           style={{
@@ -107,44 +162,27 @@ const HomeScreen = () => {
           <MyLocationIcon color={colors.graydark} size={25} />
         </TouchableHighlight>
       </View>
+    );
+  };
 
-      <BottomSheet
-        ref={bottomSheetRef}
-        index={1}
-        snapPoints={snapPoints}
-        onChange={handleSheetChanges}
-      >
-        <View>
-          <Text>Awesome 🎉</Text>
-        </View>
-      </BottomSheet>
-    </View>
-  );
-};
-
-const InputSesrch = () => {
   return (
-    <View
-      style={{
-        position: "absolute",
-        top: 30,
-        left: 0,
-        width: ScreenWidth,
-        padding: 15,
-      }}
-    >
-      <TextInput
-        placeholder="ค้นหาสถานที่"
-        style={{
-          padding: 12,
-          borderWidth: 1,
-          borderRadius: 15,
-          borderColor: colors.gray,
-          backgroundColor: colors.graylight,
-          fontSize: 16,
-        }}
-        cursorColor={colors.graydark}
-      />
+    <View style={{ flex: 1 }}>
+      <MapView
+        key={"map"}
+        provider={PROVIDER_GOOGLE}
+        style={{ flex: 1 }}
+        initialRegion={mapRegion}
+        ref={refMap}
+        showsMyLocationButton={false}
+        showsUserLocation
+      >
+        <RenderLocation />
+      </MapView>
+
+      <InputSesrch />
+      <GotoMyLocation />
+
+      <Bottom></Bottom>
     </View>
   );
 };
