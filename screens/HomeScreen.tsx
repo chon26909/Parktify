@@ -182,7 +182,7 @@ const HomeScreen = () => {
       <InputSesrch />
       <GotoMyLocation />
 
-      <Bottom></Bottom>
+      <Bottom />
     </View>
   );
 };
