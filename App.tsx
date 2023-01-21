@@ -95,7 +95,7 @@ export default function App() {
     };
   };
 
-  useEffect(checkIsLogin, [isLoggedIn]);
+  useEffect(checkIsLogin, []);
 
   return (
     <AuthContext.Provider
@@ -106,6 +106,7 @@ export default function App() {
           screenOptions={{
             headerShown: false,
           }}
+          initialRouteName="Main"
         >
           {isLoggedIn ? (
             <>

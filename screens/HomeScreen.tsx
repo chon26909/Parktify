@@ -4,9 +4,11 @@ import {
   TouchableHighlight,
   Text,
   SafeAreaView,
+  TouchableOpacity,
 } from "react-native";
 import React, {
   useCallback,
+  useContext,
   useEffect,
   useMemo,
   useRef,
@@ -26,10 +28,13 @@ import Bottom from "../components/Bottom";
 import { getLocations } from "../services/location";
 
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import AuthContext from "../shared/AuthContext";
 
 const HomeScreen = () => {
   // const navigation =
   //   useNavigation<NativeStackNavigationProp<RootStackParamList>>();
+
+  const { isLoggedIn, setLoggedIn } = useContext(AuthContext);
 
   const refMap = useRef<MapView>(null);
 
@@ -58,9 +63,9 @@ const HomeScreen = () => {
 
       console.log("token in root app ---------------- ", token);
 
-      const res = await getLocations();
+      // const res = await getLocations();
 
-      setMarkers(res.data);
+      // setMarkers(res.data);
     };
 
     fetchData();
@@ -189,6 +194,9 @@ const HomeScreen = () => {
       <GotoMyLocation />
 
       <Bottom />
+      <TouchableOpacity onPress={() => setLoggedIn(false)}>
+        <Text>Logout</Text>
+      </TouchableOpacity>
     </View>
   );
 };

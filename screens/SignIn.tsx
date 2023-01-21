@@ -27,7 +27,7 @@ const SignIn = () => {
         }}
         onPress={onSignIn}
       >
-        <Text>go to create</Text>
+        <Text>Login</Text>
       </TouchableHighlight>
     </View>
   );
