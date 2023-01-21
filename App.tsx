@@ -103,26 +103,17 @@ export default function App() {
     >
       <NavigationContainer>
         <RootStack.Navigator
+          initialRouteName="Main"
           screenOptions={{
             headerShown: false,
           }}
-          initialRouteName="Main"
         >
           {isLoggedIn ? (
-            <>
-              <RootStack.Screen name="Main" component={MainStackList} />
-            </>
+            <RootStack.Screen name="Main" component={MainStackList} />
           ) : (
-            <>
-              <RootStack.Screen name="Auth" component={AuthStackList} />
-            </>
+            <RootStack.Screen name="Auth" component={AuthStackList} />
           )}
         </RootStack.Navigator>
-
-        {/* <RootStack.Navigator>
-        <RootStack.Screen name="Auth" component={AuthStackList} />
-        <RootStack.Screen name="Main" component={MainStackList} />
-      </RootStack.Navigator> */}
       </NavigationContainer>
     </AuthContext.Provider>
   );
