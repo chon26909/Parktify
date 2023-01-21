@@ -15,7 +15,6 @@ import React, {
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { colors } from "../components/colors";
-import { RootStackParamList } from "../App";
 import MapView, { Marker, PROVIDER_GOOGLE, MapMarker } from "react-native-maps";
 import * as Location from "expo-location";
 import { initialRegion, mockData } from "../static/map";
@@ -25,6 +24,8 @@ import ParkIcon from "../icons/ParkIcon";
 import BottomSheet from "@gorhom/bottom-sheet";
 import Bottom from "../components/Bottom";
 import { getLocations } from "../services/location";
+
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const HomeScreen = () => {
   // const navigation =
@@ -53,7 +54,12 @@ const HomeScreen = () => {
 
   useEffect(() => {
     const fetchData = async () => {
+      const token = await AsyncStorage.getItem("token");
+
+      console.log("token in root app ---------------- ", token);
+
       const res = await getLocations();
+
       setMarkers(res.data);
     };
 

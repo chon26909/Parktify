@@ -11,6 +11,7 @@ import {
 import { colors } from "../components/colors";
 import { useNavigation } from "@react-navigation/native";
 import { initialRegion } from "../static/map";
+import { MainStackParamList } from "../App";
 
 type CreateStackParams = {
   SelectLocation: undefined;
@@ -104,9 +105,15 @@ const SelectLocation = () => {
 };
 
 const DetailLocation = () => {
+  const navigation =
+    useNavigation<NativeStackNavigationProp<MainStackParamList>>();
+
   return (
     <View>
       <Text>Detail</Text>
+      <TouchableOpacity onPress={() => navigation.navigate("Home")}>
+        <Text>go to home</Text>
+      </TouchableOpacity>
     </View>
   );
 };
