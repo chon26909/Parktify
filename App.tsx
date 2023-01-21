@@ -1,4 +1,5 @@
 import React, { useEffect, useState, useReducer, useMemo } from "react";
+import { StyleSheet } from "react-native";
 import i from "./assets/favicon.png";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
@@ -13,10 +14,11 @@ import { colors } from "./components/colors";
 import SignIn from "./screens/SignIn";
 import SignUp from "./screens/SignUp";
 import AuthContext from "./context/AuthContext";
+import Profile from "./screens/Profile";
 
 export type RootStackList = {
-  Auth: undefined;
-  Main: undefined;
+  AuthS: undefined;
+  MainS: undefined;
 };
 
 export type AuthStackParamList = {
@@ -27,13 +29,16 @@ export type AuthStackParamList = {
 export type MainStackParamList = {
   Home: undefined;
   Create: undefined;
+  Profile: undefined;
 };
 
 const AuthStackList = () => {
   const AuthStack = createNativeStackNavigator<AuthStackParamList>();
 
   return (
-    <AuthStack.Navigator>
+    <AuthStack.Navigator
+      screenOptions={{ headerShown: false, contentStyle: styles.container }}
+    >
       <AuthStack.Screen name="SignIn" component={SignIn} />
       <AuthStack.Screen name="SignUp" component={SignUp} />
     </AuthStack.Navigator>
@@ -70,6 +75,7 @@ const MainStackList = () => {
         }}
       />
       <MainStack.Screen name="Create" component={CreateLocationScreenStack} />
+      <MainStack.Screen name="Profile" component={Profile} />
     </MainStack.Navigator>
   );
 };
@@ -79,42 +85,32 @@ export default function App() {
 
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
-  const checkIsLogin = () => {
-    async () => {
-      console.log("Checking");
-
-      const token = await AsyncStorage.getItem("token");
-
-      console.log("token in root app", token);
-
-      if (token) {
-        setIsLoggedIn(true);
-      } else {
-        setIsLoggedIn(false);
-      }
-    };
-  };
-
-  useEffect(checkIsLogin, []);
-
   return (
     <AuthContext.Provider
       value={{ isLoggedIn: isLoggedIn, setLoggedIn: setIsLoggedIn }}
     >
       <NavigationContainer>
         <RootStack.Navigator
-          initialRouteName="Main"
+          initialRouteName="MainS"
           screenOptions={{
             headerShown: false,
           }}
         >
           {isLoggedIn ? (
-            <RootStack.Screen name="Main" component={MainStackList} />
+            <RootStack.Screen name="MainS" component={MainStackList} />
           ) : (
-            <RootStack.Screen name="Auth" component={AuthStackList} />
+            <RootStack.Screen name="AuthS" component={AuthStackList} />
           )}
         </RootStack.Navigator>
       </NavigationContainer>
     </AuthContext.Provider>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    paddingTop: 30,
+    flex: 1,
+    backgroundColor: "#fff",
+  },
+});

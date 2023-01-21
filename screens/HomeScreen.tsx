@@ -60,11 +60,9 @@ const HomeScreen = () => {
   useEffect(() => {
     const fetchData = async () => {
       const token = await AsyncStorage.getItem("token");
-
-      console.log("token in root app ---------------- ", token);
+      console.log("\ntoken in MainStack => ", token);
 
       // const res = await getLocations();
-
       // setMarkers(res.data);
     };
 
@@ -193,9 +191,14 @@ const HomeScreen = () => {
       <InputSesrch />
       <GotoMyLocation />
 
-      <Bottom />
-      <TouchableOpacity onPress={() => setLoggedIn(false)}>
-        <Text>Logout</Text>
+      <TouchableOpacity
+        style={{
+          backgroundColor: colors.primary,
+          padding: 10,
+        }}
+        onPress={() => setLoggedIn(false)}
+      >
+        <Text style={{ textAlign: "center" }}>Logout</Text>
       </TouchableOpacity>
     </View>
   );

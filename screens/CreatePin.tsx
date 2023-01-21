@@ -111,8 +111,13 @@ const DetailLocation = () => {
   return (
     <View>
       <Text>Detail</Text>
-      <TouchableOpacity onPress={() => navigation.navigate("Home")}>
-        <Text>go to home</Text>
+      <TouchableOpacity
+        style={{ backgroundColor: colors.primary, padding: 10 }}
+        onPress={() => navigation.navigate("Home")}
+      >
+        <Text style={{ textAlign: "center" }}>
+          Success and go to home screen
+        </Text>
       </TouchableOpacity>
     </View>
   );
