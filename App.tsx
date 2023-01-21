@@ -12,7 +12,7 @@ import HomeIcon from "./icons/HomeIcon";
 import { colors } from "./components/colors";
 import SignIn from "./screens/SignIn";
 import SignUp from "./screens/SignUp";
-import AuthContext from "./shared/AuthContext";
+import AuthContext from "./context/AuthContext";
 
 export type RootStackList = {
   Auth: undefined;

@@ -28,7 +28,7 @@ import Bottom from "../components/Bottom";
 import { getLocations } from "../services/location";
 
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import AuthContext from "../shared/AuthContext";
+import AuthContext from "../context/AuthContext";
 
 const HomeScreen = () => {
   // const navigation =

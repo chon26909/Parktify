@@ -3,7 +3,7 @@ import { colors } from "../components/colors";
 import { useContext } from "react";
 
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import AuthContext from "../shared/AuthContext";
+import AuthContext from "../context/AuthContext";
 
 const SignIn = () => {
   const { isLoggedIn, setLoggedIn } = useContext(AuthContext);
