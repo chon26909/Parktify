@@ -120,8 +120,9 @@ const HomeScreen = () => {
           padding: 15,
         }}
       >
-        <TextInput
+        {/* <TextInput
           placeholder="ค้นหาสถานที่"
+        
           style={{
             padding: 12,
             borderWidth: 1,
@@ -131,7 +132,20 @@ const HomeScreen = () => {
             fontSize: 16,
           }}
           cursorColor={colors.graydark}
-        />
+        /> */}
+        <Text
+          style={{
+            padding: 12,
+            borderWidth: 1,
+            borderRadius: 15,
+            borderColor: colors.gray,
+            backgroundColor: colors.graylight,
+            fontSize: 16,
+          }}
+          onPress={() => {}}
+        >
+          ค้นหาสถานที่
+        </Text>
       </View>
     );
   };
