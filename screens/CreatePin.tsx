@@ -11,18 +11,19 @@ import {
 import { colors } from "../components/colors";
 import { useNavigation } from "@react-navigation/native";
 import { initialRegion } from "../static/map";
-import { MainStackParamList } from "../App";
+import { BottomTabParamList } from "../App";
 
-type CreateStackParams = {
+export type CreatePinStackParamsList = {
   SelectLocation: undefined;
   DetailLocation: undefined;
 };
 
-const CreateLocationStack = createNativeStackNavigator<CreateStackParams>();
+const CreateLocationStack =
+  createNativeStackNavigator<CreatePinStackParamsList>();
 
 const SelectLocation = () => {
   const navigation =
-    useNavigation<NativeStackNavigationProp<CreateStackParams>>();
+    useNavigation<NativeStackNavigationProp<CreatePinStackParamsList>>();
 
   const refMap = useRef<MapView>(null);
 
@@ -106,7 +107,7 @@ const SelectLocation = () => {
 
 const DetailLocation = () => {
   const navigation =
-    useNavigation<NativeStackNavigationProp<MainStackParamList>>();
+    useNavigation<NativeStackNavigationProp<BottomTabParamList>>();
 
   return (
     <View>

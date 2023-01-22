@@ -1,24 +1,35 @@
-import React, { useEffect, useState, useReducer, useMemo } from "react";
+import React, { useState } from "react";
 import { StyleSheet } from "react-native";
-import i from "./assets/favicon.png";
-import { NavigationContainer } from "@react-navigation/native";
+import {
+  NavigationContainer,
+  NavigatorScreenParams,
+} from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-
-//views
-import HomeScreen from "./screens/HomeScreen";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import CreateLocationScreenStack from "./screens/CreatePin";
-import HomeIcon from "./icons/HomeIcon";
-import { colors } from "./components/colors";
+
+//context
+import AuthContext from "./context/AuthContext";
+
+//screen
+import HomeScreen from "./screens/HomeScreen";
 import SignIn from "./screens/SignIn";
 import SignUp from "./screens/SignUp";
-import AuthContext from "./context/AuthContext";
 import Profile from "./screens/Profile";
 
+//stack
+import CreateLocationScreenStack, {
+  CreatePinStackParamsList,
+} from "./screens/CreatePin";
+
+//color
+import { colors } from "./components/colors";
+
+//icon
+import HomeIcon from "./icons/HomeIcon";
+
 export type RootStackList = {
-  AuthS: undefined;
-  MainS: undefined;
+  AuthStack: undefined;
+  MainStack: NavigatorScreenParams<BottomTabParamList>;
 };
 
 export type AuthStackParamList = {
@@ -26,9 +37,9 @@ export type AuthStackParamList = {
   SignUp: undefined;
 };
 
-export type MainStackParamList = {
+export type BottomTabParamList = {
   Home: undefined;
-  Create: undefined;
+  CreatePin: NavigatorScreenParams<CreatePinStackParamsList>;
   Profile: undefined;
 };
 
@@ -46,7 +57,7 @@ const AuthStackList = () => {
 };
 
 const MainStackList = () => {
-  const MainStack = createBottomTabNavigator<MainStackParamList>();
+  const MainStack = createBottomTabNavigator<BottomTabParamList>();
 
   return (
     <MainStack.Navigator
@@ -74,7 +85,10 @@ const MainStackList = () => {
           },
         }}
       />
-      <MainStack.Screen name="Create" component={CreateLocationScreenStack} />
+      <MainStack.Screen
+        name="CreatePin"
+        component={CreateLocationScreenStack}
+      />
       <MainStack.Screen name="Profile" component={Profile} />
     </MainStack.Navigator>
   );
@@ -91,15 +105,15 @@ export default function App() {
     >
       <NavigationContainer>
         <RootStack.Navigator
-          initialRouteName="MainS"
+          initialRouteName="MainStack"
           screenOptions={{
             headerShown: false,
           }}
         >
           {isLoggedIn ? (
-            <RootStack.Screen name="MainS" component={MainStackList} />
+            <RootStack.Screen name="MainStack" component={MainStackList} />
           ) : (
-            <RootStack.Screen name="AuthS" component={AuthStackList} />
+            <RootStack.Screen name="AuthStack" component={AuthStackList} />
           )}
         </RootStack.Navigator>
       </NavigationContainer>

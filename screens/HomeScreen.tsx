@@ -29,10 +29,10 @@ import { getLocations } from "../services/location";
 
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import AuthContext from "../context/AuthContext";
+import { RootStackList } from "../App";
 
 const HomeScreen = () => {
-  // const navigation =
-  //   useNavigation<NativeStackNavigationProp<RootStackParamList>>();
+  const navigation = useNavigation<NativeStackNavigationProp<RootStackList>>();
 
   const { isLoggedIn, setLoggedIn } = useContext(AuthContext);
 
@@ -42,28 +42,10 @@ const HomeScreen = () => {
 
   const [markers, setMarkers] = useState([]);
 
-  // ref
-  // const bottomSheetRef = useRef<BottomSheet>(null);
-
-  // variables
-  // const snapPoints = useMemo(() => ["25%", "50%"], []);
-
-  // callbacks
-  // const handleSheetChanges = useCallback((index: number) => {
-  //   console.log("handleSheetChanges", index);
-  // }, []);
-
-  // const handleAnimate = (e: any) => {
-  //   console.log("e", e);
-  // };
-
   useEffect(() => {
     const fetchData = async () => {
       const token = await AsyncStorage.getItem("token");
-      console.log("\ntoken in MainStack => ", token);
-
-      // const res = await getLocations();
-      // setMarkers(res.data);
+      console.log("\ntoken in HomeScreen => ", token);
     };
 
     fetchData();
@@ -81,8 +63,7 @@ const HomeScreen = () => {
   // };
 
   const handleUserLocation = async () => {
-    let { status } = await Location.requestForegroundPermissionsAsync();
-    console.log("permissions status: ", status);
+    await Location.requestForegroundPermissionsAsync();
     let location = await Location.getCurrentPositionAsync({});
 
     console.log(location.coords);
@@ -194,6 +175,21 @@ const HomeScreen = () => {
       <TouchableOpacity
         style={{
           backgroundColor: colors.primary,
+          padding: 10,
+        }}
+        onPress={() =>
+          navigation.navigate("MainStack", {
+            screen: "CreatePin",
+            params: { screen: "DetailLocation" },
+          })
+        }
+      >
+        <Text style={{ textAlign: "center" }}>go to detail create pin</Text>
+      </TouchableOpacity>
+
+      <TouchableOpacity
+        style={{
+          backgroundColor: colors.accent,
           padding: 10,
         }}
         onPress={() => setLoggedIn(false)}
