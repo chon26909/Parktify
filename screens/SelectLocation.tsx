@@ -11,15 +11,11 @@ import {
 import { colors } from "../components/colors";
 import { useNavigation } from "@react-navigation/native";
 import { initialRegion } from "../static/map";
-import { BottomTabParamList } from "../App";
 
 export type CreatePinStackParamsList = {
   SelectLocation: undefined;
   DetailLocation: undefined;
 };
-
-const CreateLocationStack =
-  createNativeStackNavigator<CreatePinStackParamsList>();
 
 const SelectLocation = () => {
   const navigation =
@@ -105,41 +101,7 @@ const SelectLocation = () => {
   );
 };
 
-const DetailLocation = () => {
-  const navigation =
-    useNavigation<NativeStackNavigationProp<BottomTabParamList>>();
-
-  return (
-    <View>
-      <Text>Detail</Text>
-      <TouchableOpacity
-        style={{ backgroundColor: colors.primary, padding: 10 }}
-        onPress={() => navigation.navigate("Home")}
-      >
-        <Text style={{ textAlign: "center" }}>
-          Success and go to home screen
-        </Text>
-      </TouchableOpacity>
-    </View>
-  );
-};
-
-const CreateLocationScreenStack = () => {
-  return (
-    <CreateLocationStack.Navigator>
-      <CreateLocationStack.Screen
-        name="SelectLocation"
-        component={SelectLocation}
-      />
-      <CreateLocationStack.Screen
-        name="DetailLocation"
-        component={DetailLocation}
-      />
-    </CreateLocationStack.Navigator>
-  );
-};
-
-export default CreateLocationScreenStack;
+export default SelectLocation;
 
 const styles = StyleSheet.create({
   bottomPanal: {

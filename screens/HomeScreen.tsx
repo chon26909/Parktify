@@ -186,7 +186,7 @@ const HomeScreen = () => {
       <InputSesrch />
       <GotoMyLocation />
 
-      <TouchableOpacity
+      {/* <TouchableOpacity
         style={{
           backgroundColor: colors.primary,
           padding: 10,
@@ -199,7 +199,7 @@ const HomeScreen = () => {
         }
       >
         <Text style={{ textAlign: "center" }}>go to detail create pin</Text>
-      </TouchableOpacity>
+      </TouchableOpacity> */}
 
       <TouchableOpacity
         style={{

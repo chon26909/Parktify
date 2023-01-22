@@ -10,7 +10,9 @@ export type AuthStackParamList = {
   SignUp: undefined;
 };
 
-export type HomeStackParamList = {};
+export type HomeStackParamList = {
+  //to be continue...
+};
 
 export type CreatePinStackParamsList = {
   SelectLocation: undefined;
