@@ -1,28 +1,37 @@
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet, TouchableHighlight } from "react-native";
 import { useContext, useEffect, useState } from "react";
 import React from "react";
 import AuthContext from "../context/AuthContext";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { getProfile } from "../services/auth";
 
 const Profile = () => {
   const { isLoggedIn } = useContext(AuthContext);
 
-  const [token, setToken] = useState<string | null>();
+  const [profile, setProfile] = useState<any>();
 
-  const getToken = () => {
-    async () => {
-      const t = await AsyncStorage.getItem("token");
-      console.log("profile token ", token);
-      setToken(t);
-    };
+  const getUserProfile = async () => {
+    console.log("refresh profile");
+
+    const res = await getProfile();
+    console.log("user profile ", res);
+    setProfile(res.data);
   };
 
-  useEffect(getToken, []);
+  // useEffect(getUserProfile, []);
 
   return (
     <View style={styles.container}>
       <Text>isLoggedIn : {String(isLoggedIn)}</Text>
-      <Text>token : {token}</Text>
+
+      {profile ? (
+        <>
+          <Text>user profile : {String(profile.email)}</Text>
+          <TouchableHighlight onPress={() => getUserProfile()}>
+            <Text>Refresh profile</Text>
+          </TouchableHighlight>
+        </>
+      ) : null}
     </View>
   );
 };

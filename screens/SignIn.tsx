@@ -1,29 +1,44 @@
-import { View, Text, TouchableHighlight, StyleSheet } from "react-native";
+import {
+  View,
+  Text,
+  TouchableHighlight,
+  StyleSheet,
+  TextInput,
+} from "react-native";
 import { colors } from "../components/colors";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import AuthContext from "../context/AuthContext";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { AuthStackParamList } from "../App";
+import { AuthStackParamList } from "../stacks/type";
+import { signIn } from "../services/auth";
 
 const SignIn = () => {
   const { setLoggedIn } = useContext(AuthContext);
+
+  const [email, setemail] = useState();
+  const [password, setpassword] = useState();
 
   const navigation =
     useNavigation<NativeStackNavigationProp<AuthStackParamList>>();
 
   const onSignIn = async () => {
-    AsyncStorage.setItem("token", "abce");
-    setLoggedIn(true);
-    // const token = await AsyncStorage.getItem("token");
-    // console.log("token ", token);
+    const res: any = await signIn({ email: "c@gmail.com", password: "1234" });
+
+    console.log("res", res);
+
+    if (res.message === "success") {
+      AsyncStorage.setItem("token", res.token);
+      setLoggedIn(true);
+    }
   };
 
   return (
     <View>
-      <Text>SignIn</Text>
+      <TextInput />
+      <TextInput />
       <TouchableHighlight
         style={{
           backgroundColor: colors.primary,
