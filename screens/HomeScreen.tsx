@@ -44,8 +44,8 @@ const HomeScreen = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const token = await AsyncStorage.getItem("token");
-      console.log("\ntoken in HomeScreen => ", token);
+      // const token = await AsyncStorage.getItem("token");
+      // console.log("\ntoken in HomeScreen => ", token);
     };
 
     fetchData();
@@ -66,7 +66,7 @@ const HomeScreen = () => {
     await Location.requestForegroundPermissionsAsync();
     let location = await Location.getCurrentPositionAsync({});
 
-    console.log(location.coords);
+    // console.log(location.coords);
 
     refMap.current?.animateToRegion({
       ...mapRegion,
@@ -85,10 +85,10 @@ const HomeScreen = () => {
     console.log("onPress ", e);
   };
 
-  const handleLogout = () => {
+  const handleLogout = async () => {
     setLoggedIn(false);
-    AsyncStorage.removeItem("token");
-    navigation.navigate("AuthStack", { screen: "SignIn" });
+    await AsyncStorage.removeItem("token");
+    navigation.replace("AuthStack", { screen: "SignIn" });
   };
 
   const RenderLocation = () => {

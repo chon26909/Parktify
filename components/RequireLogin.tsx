@@ -16,11 +16,8 @@ const RequireLogin = (props: IProps) => {
 
   useEffect(() => {}, [isLoggedIn]);
 
-  if (isLoggedIn === true) {
-    return props.children;
-  }
   // user is not loggedIn
-  else if (isLoggedIn === false) {
+  if (isLoggedIn === false) {
     return (
       <View style={{ margin: 50 }}>
         <TouchableHighlight
@@ -33,9 +30,9 @@ const RequireLogin = (props: IProps) => {
         </TouchableHighlight>
       </View>
     );
-  } else {
-    return <View></View>;
   }
+
+  return props.children;
 };
 
 export default RequireLogin;

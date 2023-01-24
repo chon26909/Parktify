@@ -21,10 +21,10 @@ export type RootStackList = {
   MainStack: NavigatorScreenParams<BottomTabParamList>;
 };
 
-const checkTokenInStorage = () => {
-  const token = async () => await getToken();
-  return token.length > 0 ? true : false;
-};
+// const checkTokenInStorage = () => {
+//   const token = async () => await getToken();
+//   return token.length > 0 ? true : false;
+// };
 
 const App = () => {
   const RootStack = createNativeStackNavigator<RootStackList>();
@@ -32,15 +32,17 @@ const App = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   useEffect(() => {
-    let _t: any;
-
-    const getT = async () => {
-      _t =
-        String(await AsyncStorage.getItem("token")).length > 0 ? true : false;
+    const checkTokenInStorage = async () => {
+      await AsyncStorage.getItem("token").then((token) => {
+        console.log("token in storage", token);
+        if (token) {
+          setIsLoggedIn(String(token).length > 0 ? true : false);
+        } else {
+          setIsLoggedIn(false);
+        }
+      });
     };
-    getT();
-
-    setIsLoggedIn(_t);
+    checkTokenInStorage();
   }, []);
 
   return (

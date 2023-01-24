@@ -13,8 +13,7 @@ const CreatePinStack = () => {
 
   const { isLoggedIn } = useContext(AuthContext);
 
-  console.log("create pin", getToken());
-  alert("create pin context " + isLoggedIn);
+  alert("isLoggedIn" + isLoggedIn);
 
   return (
     <RequireLogin>
