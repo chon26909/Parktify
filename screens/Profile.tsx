@@ -13,6 +13,7 @@ import { AuthStackParamList, BottomTabParamList } from "../stacks/type";
 import { RootStackList } from "../App";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import RequireLogin from "../components/RequireLogin";
 
 type Composit = CompositeNavigationProp<
   StackNavigationProp<AuthStackParamList>,
@@ -40,19 +41,21 @@ const Profile = () => {
   // useEffect(getUserProfile, []);
 
   return (
-    <View style={styles.container}>
-      <Text>isLoggedIn : {String(isLoggedIn)}</Text>
+    <RequireLogin>
+      <View style={styles.container}>
+        <Text>isLoggedIn : {String(isLoggedIn)}</Text>
 
-      {profile ? (
-        <>
-          <Text>user profile : {String(profile.email)}</Text>
-        </>
-      ) : null}
+        {profile ? (
+          <>
+            <Text>user profile : {String(profile.email)}</Text>
+          </>
+        ) : null}
 
-      <TouchableHighlight onPress={() => getUserProfile()}>
-        <Text>Refresh profile</Text>
-      </TouchableHighlight>
-    </View>
+        <TouchableHighlight onPress={() => getUserProfile()}>
+          <Text>Refresh profile</Text>
+        </TouchableHighlight>
+      </View>
+    </RequireLogin>
   );
 };
 

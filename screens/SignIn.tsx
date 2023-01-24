@@ -23,6 +23,8 @@ const SignIn = () => {
   const [password, setpassword] = useState();
 
   const navigation = useNavigation<NativeStackNavigationProp<RootStackList>>();
+  const navigationAuth =
+    useNavigation<NativeStackNavigationProp<AuthStackParamList>>();
 
   const onSignIn = async () => {
     const res: any = await signIn({ email: "c@gmail.com", password: "1234" });
@@ -53,7 +55,7 @@ const SignIn = () => {
 
       <Text
         style={{ marginTop: 20, textAlign: "center" }}
-        onPress={() => navigation.navigate("AuthStack", { screen: "SignUp" })}
+        onPress={() => navigationAuth.navigate("SignUp")}
       >
         SignUp
       </Text>

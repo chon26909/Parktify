@@ -3,9 +3,9 @@ import React, { useContext } from "react";
 import { colors } from "../components/colors";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { AuthStackParamList } from "../App";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import AuthContext from "../context/AuthContext";
+import { AuthStackParamList } from "../stacks/type";
 
 const SignUp = () => {
   const navigation =
