@@ -4,18 +4,37 @@ import React from "react";
 import AuthContext from "../context/AuthContext";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { getProfile } from "../services/auth";
+import {
+  CompositeNavigationProp,
+  useNavigation,
+} from "@react-navigation/native";
+import { BottomTabNavigationProp } from "@react-navigation/bottom-tabs";
+import { AuthStackParamList, BottomTabParamList } from "../stacks/type";
+import { RootStackList } from "../App";
+import { StackNavigationProp } from "@react-navigation/stack";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+
+type Composit = CompositeNavigationProp<
+  StackNavigationProp<AuthStackParamList>,
+  BottomTabNavigationProp<BottomTabParamList>
+>;
 
 const Profile = () => {
+  // const navigation = useNavigation<Composit>();
+  const navigation = useNavigation<NativeStackNavigationProp<RootStackList>>();
+
   const { isLoggedIn } = useContext(AuthContext);
 
   const [profile, setProfile] = useState<any>();
 
   const getUserProfile = async () => {
-    console.log("refresh profile");
+    // console.log("refresh profile");
 
-    const res = await getProfile();
-    console.log("user profile ", res);
-    setProfile(res.data);
+    // const res = await getProfile();
+    // console.log("user profile ", res);
+    // setProfile(res.data);
+
+    navigation.navigate("AuthStack", { screen: "SignIn" });
   };
 
   // useEffect(getUserProfile, []);
@@ -27,11 +46,12 @@ const Profile = () => {
       {profile ? (
         <>
           <Text>user profile : {String(profile.email)}</Text>
-          <TouchableHighlight onPress={() => getUserProfile()}>
-            <Text>Refresh profile</Text>
-          </TouchableHighlight>
         </>
       ) : null}
+
+      <TouchableHighlight onPress={() => getUserProfile()}>
+        <Text>Refresh profile</Text>
+      </TouchableHighlight>
     </View>
   );
 };

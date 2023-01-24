@@ -11,10 +11,11 @@ import "./config/axiosConfig";
 
 import AuthStack from "./stacks/AuthStack";
 import BottomTabStack from "./stacks/BottomTabStack";
-import { BottomTabParamList } from "./stacks/type";
+import { AuthStackParamList, BottomTabParamList } from "./stacks/type";
+import AuthContext from "./context/AuthContext";
 
 export type RootStackList = {
-  AuthStack: undefined;
+  AuthStack: NavigatorScreenParams<AuthStackParamList>;
   MainStack: NavigatorScreenParams<BottomTabParamList>;
 };
 
@@ -24,22 +25,24 @@ const App = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   return (
-    // <AuthContext.Provider
-    //   value={{ isLoggedIn: isLoggedIn, setLoggedIn: setIsLoggedIn }}
-    // >
-    <NavigationContainer>
-      <RootStack.Navigator
-        initialRouteName="MainStack"
-        screenOptions={{
-          headerShown: false,
-        }}
-      >
-        {isLoggedIn ? null : (
+    <AuthContext.Provider
+      value={{ isLoggedIn: isLoggedIn, setLoggedIn: setIsLoggedIn }}
+    >
+      <NavigationContainer>
+        <RootStack.Navigator
+          initialRouteName="MainStack"
+          screenOptions={{
+            headerShown: false,
+          }}
+        >
+          {/* {isLoggedIn ? ( */}
+          <RootStack.Screen name="MainStack" component={BottomTabStack} />
+          {/* ) : ( */}
           <RootStack.Screen name="AuthStack" component={AuthStack} />
-        )}
-      </RootStack.Navigator>
-    </NavigationContainer>
-    // </AuthContext.Provider>
+          {/* )} */}
+        </RootStack.Navigator>
+      </NavigationContainer>
+    </AuthContext.Provider>
   );
 };
 

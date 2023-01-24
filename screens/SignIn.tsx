@@ -14,6 +14,7 @@ import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { AuthStackParamList } from "../stacks/type";
 import { signIn } from "../services/auth";
+import { RootStackList } from "../App";
 
 const SignIn = () => {
   const { setLoggedIn } = useContext(AuthContext);
@@ -21,8 +22,7 @@ const SignIn = () => {
   const [email, setemail] = useState();
   const [password, setpassword] = useState();
 
-  const navigation =
-    useNavigation<NativeStackNavigationProp<AuthStackParamList>>();
+  const navigation = useNavigation<NativeStackNavigationProp<RootStackList>>();
 
   const onSignIn = async () => {
     const res: any = await signIn({ email: "c@gmail.com", password: "1234" });
@@ -31,14 +31,16 @@ const SignIn = () => {
 
     if (res.message === "success") {
       AsyncStorage.setItem("token", res.token);
-      setLoggedIn(true);
+      // setLoggedIn(true);
+      navigation.navigate("MainStack", { screen: "Home" });
     }
   };
 
   return (
     <View>
-      <TextInput />
-      <TextInput />
+      <Text>Login Screen</Text>
+      <TextInput style={styles.input} />
+      <TextInput style={styles.input} />
       <TouchableHighlight
         style={{
           backgroundColor: colors.primary,
@@ -51,7 +53,7 @@ const SignIn = () => {
 
       <Text
         style={{ marginTop: 20, textAlign: "center" }}
-        onPress={() => navigation.navigate("SignUp")}
+        onPress={() => navigation.navigate("AuthStack", { screen: "SignUp" })}
       >
         SignUp
       </Text>
@@ -68,5 +70,10 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     alignItems: "center",
     justifyContent: "center",
+  },
+  input: {
+    borderColor: colors.primary,
+    borderWidth: 1,
+    padding: 5,
   },
 });
