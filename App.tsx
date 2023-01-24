@@ -36,6 +36,7 @@ const App = () => {
       await AsyncStorage.getItem("token").then((token) => {
         console.log("token in storage", token);
         if (token) {
+          // setIsLoggedIn(String(token).length > 0 ? true : false);
           setIsLoggedIn(true);
         } else {
           setIsLoggedIn(false);
