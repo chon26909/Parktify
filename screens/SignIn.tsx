@@ -33,8 +33,8 @@ const SignIn = () => {
 
     if (res.message === "success") {
       AsyncStorage.setItem("token", res.token);
-      // setLoggedIn(true);
-      navigation.navigate("MainStack", { screen: "Home" });
+      setLoggedIn(true);
+      navigation.replace("MainStack", { screen: "Home" });
     }
   };
 

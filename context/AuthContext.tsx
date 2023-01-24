@@ -1,11 +1,12 @@
 import React from "react";
+import { getToken } from "../services/auth";
 interface IAuthContext {
   isLoggedIn: boolean;
   setLoggedIn: (value: boolean) => void;
 }
 
 const initialState: IAuthContext = {
-  isLoggedIn: false,
+  isLoggedIn: getToken().length > 0 ? true : false,
   setLoggedIn(value) {},
 };
 

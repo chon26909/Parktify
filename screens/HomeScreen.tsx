@@ -85,6 +85,12 @@ const HomeScreen = () => {
     console.log("onPress ", e);
   };
 
+  const handleLogout = () => {
+    setLoggedIn(false);
+    AsyncStorage.removeItem("token");
+    navigation.navigate("AuthStack", { screen: "SignIn" });
+  };
+
   const RenderLocation = () => {
     return (
       <>
@@ -206,7 +212,7 @@ const HomeScreen = () => {
           backgroundColor: colors.accent,
           padding: 10,
         }}
-        onPress={() => setLoggedIn(false)}
+        onPress={handleLogout}
       >
         <Text style={{ textAlign: "center" }}>Logout</Text>
       </TouchableOpacity>

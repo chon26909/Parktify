@@ -1,15 +1,11 @@
 import axios, { AxiosRequestConfig, AxiosResponse, AxiosError } from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-
-const getToken = async () => {
-  const token = await AsyncStorage.getItem("token");
-  return String(token);
-};
+import { getToken } from "../services/auth";
 
 axios.defaults.baseURL = "http://192.168.1.150:4000";
 
 const onRequest = async (config: any) => {
-  config.headers!.Authorization = "Bearer " + (await getToken());
+  config.headers!.Authorization = "Bearer " + getToken();
 
   console.log("config ", config);
 

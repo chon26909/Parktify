@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { StyleSheet } from "react-native";
 import {
   NavigationContainer,
@@ -13,16 +13,35 @@ import AuthStack from "./stacks/AuthStack";
 import BottomTabStack from "./stacks/BottomTabStack";
 import { AuthStackParamList, BottomTabParamList } from "./stacks/type";
 import AuthContext from "./context/AuthContext";
+import { getToken } from "./services/auth";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export type RootStackList = {
   AuthStack: NavigatorScreenParams<AuthStackParamList>;
   MainStack: NavigatorScreenParams<BottomTabParamList>;
 };
 
+const checkTokenInStorage = () => {
+  const token = async () => await getToken();
+  return token.length > 0 ? true : false;
+};
+
 const App = () => {
   const RootStack = createNativeStackNavigator<RootStackList>();
 
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  useEffect(() => {
+    let _t: any;
+
+    const getT = async () => {
+      _t =
+        String(await AsyncStorage.getItem("token")).length > 0 ? true : false;
+    };
+    getT();
+
+    setIsLoggedIn(_t);
+  }, []);
 
   return (
     <AuthContext.Provider
