@@ -21,23 +21,25 @@ import { RootStackList } from "../App";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import RequireLogin from "../components/RequireLogin";
+import { ProfileStackParamsList } from "../stacks/ProfileStack";
 
 type Composit = CompositeNavigationProp<
   StackNavigationProp<AuthStackParamList>,
   BottomTabNavigationProp<BottomTabParamList>
 >;
 
-interface IProfile {
+export interface IProfile {
   username: string;
   firstname: string;
   lastname: string;
-  email: string;
+  email?: string;
   image: string;
 }
 
 const Profile = () => {
   // const navigation = useNavigation<Composit>();
-  const navigation = useNavigation<NativeStackNavigationProp<RootStackList>>();
+  const navigation =
+    useNavigation<NativeStackNavigationProp<ProfileStackParamsList>>();
 
   const [refreshing, setRefreshing] = React.useState(false);
 
@@ -48,12 +50,34 @@ const Profile = () => {
     });
   };
 
-  const [profile, setProfile] = useState<IProfile>();
+  const [username, setUsername] = useState<IProfile["username"]>("");
+  const [firstname, setFirstname] = useState<IProfile["firstname"]>("");
+  const [lastname, setLastname] = useState<IProfile["lastname"]>("");
+  const [email, setEmail] = useState<IProfile["email"]>("");
 
   const getUserProfile = async () => {
-    const res = await getProfile();
-    console.log("user profile ", res.data);
-    setProfile(res.data);
+    const { data } = await getProfile();
+    console.log("user profile ", data);
+    setUsername(data.username);
+    setFirstname(data.firstname);
+    setLastname(data.lastname);
+    setEmail(data.email);
+  };
+
+  const onSubmitEditProfile = () => {
+    console.log("call api update profile");
+  };
+
+  const gotoEdit = () => {
+    navigation.navigate("Edit", {
+      username,
+      setUsername,
+      firstname,
+      setFirstname,
+      lastname,
+      setLastname,
+      onSubmit: onSubmitEditProfile,
+    });
   };
 
   useEffect(() => {
@@ -69,12 +93,17 @@ const Profile = () => {
         }
         style={styles.container}
       >
-        <Text>Username : {profile?.username}</Text>
-        <Text>
-          {profile?.firstname}
-          {profile?.lastname}
-        </Text>
-        <Text>Email : {profile?.email}</Text>
+        <>
+          <Text>Username : {username}</Text>
+          <Text>
+            {firstname} {lastname}
+          </Text>
+          <Text>Email : {email}</Text>
+
+          <TouchableHighlight onPress={gotoEdit}>
+            <Text>edit profile</Text>
+          </TouchableHighlight>
+        </>
       </ScrollView>
     </RequireLogin>
   );

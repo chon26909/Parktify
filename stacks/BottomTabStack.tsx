@@ -7,8 +7,8 @@ import HomeIcon from "../icons/HomeIcon";
 
 //screen
 import HomeScreen from "../screens/HomeScreen";
-import Profile from "../screens/Profile";
 import CreatePinStack from "./CreatePinStack";
+import ProfileStack from "./ProfileStack";
 
 const BottomTabStack = () => {
   const MainStack = createBottomTabNavigator<BottomTabParamList>();
@@ -40,7 +40,7 @@ const BottomTabStack = () => {
         }}
       />
       <MainStack.Screen name="CreatePin" component={CreatePinStack} />
-      <MainStack.Screen name="Profile" component={Profile} />
+      <MainStack.Screen name="Profile" component={ProfileStack} />
     </MainStack.Navigator>
   );
 };
