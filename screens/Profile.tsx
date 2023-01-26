@@ -1,4 +1,11 @@
-import { View, Text, StyleSheet, TouchableHighlight } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  TouchableHighlight,
+  ScrollView,
+  RefreshControl,
+} from "react-native";
 import { useContext, useEffect, useState } from "react";
 import React from "react";
 import AuthContext from "../context/AuthContext";
@@ -24,25 +31,40 @@ const Profile = () => {
   // const navigation = useNavigation<Composit>();
   const navigation = useNavigation<NativeStackNavigationProp<RootStackList>>();
 
+  const [refreshing, setRefreshing] = React.useState(false);
+
+  const onRefresh = async () => {
+    setRefreshing(true);
+    await getProfile();
+    setRefreshing(false);
+  };
+
   const { isLoggedIn } = useContext(AuthContext);
 
   const [profile, setProfile] = useState<any>();
 
   const getUserProfile = async () => {
-    // console.log("refresh profile");
-
-    // const res = await getProfile();
-    // console.log("user profile ", res);
-    // setProfile(res.data);
-
-    navigation.navigate("AuthStack", { screen: "SignIn" });
+    console.log("refresh profile");
+    const res = await getProfile();
+    console.log("user profile ", res);
+    setProfile(res.data);
+    // navigation.navigate("AuthStack", { screen: "SignIn" });
   };
 
-  // useEffect(getUserProfile, []);
+  useEffect(() => {
+    getUserProfile();
+  }, []);
 
   return (
     <RequireLogin>
-      <View style={styles.container}>
+      <ScrollView
+        refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+        }
+      >
+        <Text>Pull down to see RefreshControl indicator</Text>
+      </ScrollView>
+      {/* <View style={styles.container}>
         <Text>isLoggedIn : {String(isLoggedIn)}</Text>
 
         {profile ? (
@@ -54,7 +76,7 @@ const Profile = () => {
         <TouchableHighlight onPress={() => getUserProfile()}>
           <Text>Refresh profile</Text>
         </TouchableHighlight>
-      </View>
+      </View> */}
     </RequireLogin>
   );
 };

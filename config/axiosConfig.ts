@@ -5,9 +5,13 @@ import { getToken } from "../services/auth";
 axios.defaults.baseURL = "http://192.168.1.150:4000";
 
 const onRequest = async (config: any) => {
-  config.headers!.Authorization = "Bearer " + getToken();
+  let token = "";
 
-  console.log("config ", config);
+  await getToken().then((value) => {
+    token = value ? String(value) : "";
+  });
+
+  config.headers!.Authorization = "Bearer " + token;
 
   return config;
 };

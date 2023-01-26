@@ -6,9 +6,10 @@ interface ISignIn {
   password: string;
 }
 
-export const getToken = () => {
-  const token = async () => await AsyncStorage.getItem("token");
-  return token.length > 0 ? String(token) : "";
+export const getToken = async () => {
+  const token = await AsyncStorage.getItem("token");
+  return token;
+  // return token.length > 0 ? String(token) : "";
 };
 
 export const signIn = async (body: ISignIn) => {
