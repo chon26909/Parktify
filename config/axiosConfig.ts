@@ -1,5 +1,4 @@
-import axios, { AxiosRequestConfig, AxiosResponse, AxiosError } from "axios";
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import axios, { AxiosResponse, AxiosError } from "axios";
 import { getToken } from "../services/auth";
 
 axios.defaults.baseURL = "http://192.168.1.150:4000";
@@ -11,7 +10,7 @@ const onRequest = async (config: any) => {
     token = value ? String(value) : "";
   });
 
-  config.headers!.Authorization = "Bearer " + token;
+  config.headers["Authorization"] = "Bearer " + token;
 
   return config;
 };
@@ -21,12 +20,12 @@ const onRequestError = (err: AxiosError): Promise<AxiosError> => {
 axios.interceptors.request.use(onRequest, onRequestError);
 
 const onResponse = (response: AxiosResponse): AxiosResponse => {
-  console.log("response interceptor ", response);
+  // console.log("response interceptor ", response);
 
   return response.data;
 };
 const onResponseError = (err: AxiosError): Promise<AxiosError> => {
-  console.log("err response interceptor ", err);
+  // console.log("err response interceptor ", err);
 
   return Promise.reject(err);
 };

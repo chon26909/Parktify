@@ -27,6 +27,14 @@ type Composit = CompositeNavigationProp<
   BottomTabNavigationProp<BottomTabParamList>
 >;
 
+interface IProfile {
+  username: string;
+  firstname: string;
+  lastname: string;
+  email: string;
+  image: string;
+}
+
 const Profile = () => {
   // const navigation = useNavigation<Composit>();
   const navigation = useNavigation<NativeStackNavigationProp<RootStackList>>();
@@ -35,20 +43,17 @@ const Profile = () => {
 
   const onRefresh = async () => {
     setRefreshing(true);
-    await getProfile();
-    setRefreshing(false);
+    await getProfile().finally(() => {
+      setRefreshing(false);
+    });
   };
 
-  const { isLoggedIn } = useContext(AuthContext);
-
-  const [profile, setProfile] = useState<any>();
+  const [profile, setProfile] = useState<IProfile>();
 
   const getUserProfile = async () => {
-    console.log("refresh profile");
     const res = await getProfile();
-    console.log("user profile ", res);
+    console.log("user profile ", res.data);
     setProfile(res.data);
-    // navigation.navigate("AuthStack", { screen: "SignIn" });
   };
 
   useEffect(() => {
@@ -57,26 +62,20 @@ const Profile = () => {
 
   return (
     <RequireLogin>
+      {/* ----- pull down to refresh -----*/}
       <ScrollView
         refreshControl={
           <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
         }
+        style={styles.container}
       >
-        <Text>Pull down to see RefreshControl indicator</Text>
+        <Text>Username : {profile?.username}</Text>
+        <Text>
+          {profile?.firstname}
+          {profile?.lastname}
+        </Text>
+        <Text>Email : {profile?.email}</Text>
       </ScrollView>
-      {/* <View style={styles.container}>
-        <Text>isLoggedIn : {String(isLoggedIn)}</Text>
-
-        {profile ? (
-          <>
-            <Text>user profile : {String(profile.email)}</Text>
-          </>
-        ) : null}
-
-        <TouchableHighlight onPress={() => getUserProfile()}>
-          <Text>Refresh profile</Text>
-        </TouchableHighlight>
-      </View> */}
     </RequireLogin>
   );
 };
