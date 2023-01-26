@@ -13,8 +13,6 @@ const CreatePinStack = () => {
 
   const { isLoggedIn } = useContext(AuthContext);
 
-  alert("isLoggedIn" + isLoggedIn);
-
   return (
     <RequireLogin>
       <CreateLocationStack.Navigator initialRouteName="SelectLocation">
