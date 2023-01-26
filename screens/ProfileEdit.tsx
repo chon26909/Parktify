@@ -10,6 +10,7 @@ import { RouteProp, useNavigation, useRoute } from "@react-navigation/native";
 import { ProfileStackParamsList } from "../stacks/ProfileStack";
 import { colors } from "../components/colors";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { ScreenWidth } from "../components/shared";
 
 export interface IProfileEdit {
   username: string;
@@ -32,7 +33,7 @@ const ProfileEdit = () => {
   };
 
   return (
-    <View>
+    <View style={styles.container}>
       <Text>ProfileEdit</Text>
       <TextInput
         style={styles.input}
@@ -60,15 +61,16 @@ export default ProfileEdit;
 
 const styles = StyleSheet.create({
   container: {
+    width: ScreenWidth,
     paddingTop: 30,
+    paddingHorizontal: 30,
     flex: 1,
     backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
   },
   input: {
     borderColor: colors.primary,
     borderWidth: 1,
     padding: 5,
+    marginVertical: 5,
   },
 });

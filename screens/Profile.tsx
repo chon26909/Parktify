@@ -101,7 +101,7 @@ const Profile = () => {
           <Text>Email : {email}</Text>
 
           <TouchableHighlight onPress={gotoEdit}>
-            <Text>edit profile</Text>
+            <Text style={{ textAlign: "center" }}>edit profile</Text>
           </TouchableHighlight>
         </>
       </ScrollView>
