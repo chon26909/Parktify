@@ -22,5 +22,5 @@ export type CreatePinStackParamsList = {
 export type BottomTabParamList = {
   Home: undefined;
   CreatePin: NavigatorScreenParams<CreatePinStackParamsList>;
-  Profile: undefined;
+  ProfileStack: undefined;
 };

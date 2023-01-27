@@ -39,7 +39,7 @@ export interface IProfile {
 const Profile = () => {
   // const navigation = useNavigation<Composit>();
   const navigation =
-    useNavigation<NativeStackNavigationProp<ProfileStackParamsList>>();
+    useNavigation<NativeStackNavigationProp<ProfileStackParamsList, "Edit">>();
 
   const [refreshing, setRefreshing] = React.useState(false);
 
@@ -71,12 +71,12 @@ const Profile = () => {
   const gotoEdit = () => {
     navigation.navigate("Edit", {
       username,
-      setUsername,
+      // setUsername: (value) => setUsername(value),
       firstname,
-      setFirstname,
+      // setFirstname: (value) => setFirstname(value),
       lastname,
-      setLastname,
-      onSubmit: onSubmitEditProfile,
+      // setLastname: (value) => setLastname(value),
+      // onSubmit: () => onSubmitEditProfile(),
     });
   };
 

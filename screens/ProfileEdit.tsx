@@ -29,7 +29,7 @@ const ProfileEdit = () => {
 
   const onSubmit = () => {
     navigation.goBack();
-    params.onSubmit();
+    // params.onSubmit();
   };
 
   return (
@@ -38,17 +38,17 @@ const ProfileEdit = () => {
       <TextInput
         style={styles.input}
         defaultValue={params.username}
-        onChangeText={(text) => params.setUsername(text)}
+        // onChangeText={(text) => params.setUsername(text)}
       />
       <TextInput
         style={styles.input}
         defaultValue={params.firstname}
-        onChangeText={(text) => params.setFirstname(text)}
+        // onChangeText={(text) => params.setFirstname(text)}
       />
       <TextInput
         style={styles.input}
         defaultValue={params.lastname}
-        onChangeText={(text) => params.setLastname(text)}
+        // onChangeText={(text) => params.setLastname(text)}
       />
       <TouchableOpacity onPress={onSubmit}>
         <Text>update</Text>

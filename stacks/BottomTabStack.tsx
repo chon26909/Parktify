@@ -40,7 +40,7 @@ const BottomTabStack = () => {
         }}
       />
       <MainStack.Screen name="CreatePin" component={CreatePinStack} />
-      <MainStack.Screen name="Profile" component={ProfileStack} />
+      <MainStack.Screen name="ProfileStack" component={ProfileStack} />
     </MainStack.Navigator>
   );
 };

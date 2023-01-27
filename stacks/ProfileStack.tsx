@@ -13,12 +13,12 @@ export type ProfileStackParamsList = {
   Profile: undefined;
   Edit: {
     username: string;
-    setUsername: (value: string) => void;
+    // setUsername: (value: string) => void;
     firstname: string;
-    setFirstname: (value: string) => void;
+    // setFirstname: (value: string) => void;
     lastname: string;
-    setLastname: (value: string) => void;
-    onSubmit: () => void;
+    // setLastname: (value: string) => void;
+    // onSubmit: () => void;
   };
 };
 
@@ -28,19 +28,10 @@ const ProfileStack = () => {
   const { isLoggedIn } = useContext(AuthContext);
 
   return (
-    <RequireLogin>
-      <ProfileStack.Navigator initialRouteName="Profile">
-        <ProfileStack.Screen name="Profile" component={Profile} />
-        <ProfileStack.Screen
-          name="Edit"
-          component={ProfileEdit}
-          initialParams={{
-            username: "",
-            firstname: "",
-          }}
-        />
-      </ProfileStack.Navigator>
-    </RequireLogin>
+    <ProfileStack.Navigator initialRouteName="Profile">
+      <ProfileStack.Screen name="Profile" component={Profile} />
+      <ProfileStack.Screen name="Edit" component={ProfileEdit} />
+    </ProfileStack.Navigator>
   );
 };
 
