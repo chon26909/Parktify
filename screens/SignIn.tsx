@@ -31,7 +31,7 @@ const SignIn = () => {
 
   const onSignIn = async () => {
     try {
-      const res: any = await signIn({ email: "cgmail.com", password: "1234" });
+      const res: any = await signIn({ email: "c@gmail.com", password: "1234" });
 
       console.log("res", res);
 
