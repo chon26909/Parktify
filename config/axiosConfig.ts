@@ -1,7 +1,7 @@
 import axios, { AxiosResponse, AxiosError } from "axios";
 import { getToken } from "../services/auth";
 
-axios.defaults.baseURL = "http://192.168.1.150:4000";
+axios.defaults.baseURL = "http://192.168.1.152:4000";
 
 const onRequest = async (config: any) => {
   let token = "";
@@ -25,8 +25,8 @@ const onResponse = (response: AxiosResponse): AxiosResponse => {
   return response.data;
 };
 const onResponseError = (err: AxiosError): Promise<AxiosError> => {
-  // console.log("err response interceptor ", err);
+  // console.log("err response interceptor ", err.response?.data);
 
-  return Promise.reject(err);
+  return Promise.reject(err.response?.data);
 };
 axios.interceptors.response.use(onResponse, onResponseError);

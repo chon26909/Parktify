@@ -15,6 +15,7 @@ import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { AuthStackParamList } from "../stacks/type";
 import { signIn } from "../services/auth";
 import { RootStackList } from "../App";
+import { AxiosError } from "axios";
 
 const SignIn = () => {
   const { setLoggedIn } = useContext(AuthContext);
@@ -22,25 +23,34 @@ const SignIn = () => {
   const [email, setemail] = useState();
   const [password, setpassword] = useState();
 
+  const [error, setError] = useState("");
+
   const navigation = useNavigation<NativeStackNavigationProp<RootStackList>>();
   const navigationAuth =
     useNavigation<NativeStackNavigationProp<AuthStackParamList>>();
 
   const onSignIn = async () => {
-    const res: any = await signIn({ email: "c@gmail.com", password: "1234" });
+    try {
+      const res: any = await signIn({ email: "cgmail.com", password: "1234" });
 
-    console.log("res", res);
+      console.log("res", res);
 
-    if (res.message === "success") {
-      AsyncStorage.setItem("token", res.token);
-      setLoggedIn(true);
-      navigation.replace("MainStack", { screen: "Home" });
+      if (res.message === "success") {
+        AsyncStorage.setItem("token", res.token);
+        setLoggedIn(true);
+        navigation.replace("MainStack", { screen: "Home" });
+      }
+    } catch (error: any) {
+      console.log("error sign in", error);
+      setError(error.message);
     }
   };
 
   return (
     <View>
       <Text>Login Screen</Text>
+
+      {error.length > 0 ? <Text>{error}</Text> : null}
       <TextInput style={styles.input} />
       <TextInput style={styles.input} />
       <TouchableHighlight
